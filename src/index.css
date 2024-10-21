@@ -11,6 +11,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 a {
@@ -23,10 +26,9 @@ a:hover {
 }
 
 body {
-  margin-left: 10px;
-  margin-right: 10px;
   display: flex;
   place-items: center;
+  margin: 0;
   min-width: 100%;
   min-height: 100vh;
 }
@@ -56,10 +58,76 @@ button:focus-visible {
 }
 
 .sampleBlockContainer{
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top:60px;
 }
 
 .sample-block{
+  width: 50%;
+  padding: 15px;
+  box-sizing: border-box;
+}
 
+.sample-block button{
+  width: 60px;
+  margin-right: 5px;
+  margin-top: 10px;
+  background: #303030;
+  border-color: #bbbbbb33;
+}
+
+.waveform:hover{
+  cursor: pointer;
+}
+
+.search-form input{
+  min-width: 250px;
+  margin-right:5px;
+}
+
+.search-form{
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: left;
+  z-index: 99;
+  width: 100%;
+}
+
+.kyles-loader,
+.kyles-spinner {
+    font-size: 80px;
+    color: #baf71e;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.kyles-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+
+@media (max-width: 650px){
+  .sample-block{
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px){
+  .search-form input{
+    min-width: 180px;
+  }
 }
 

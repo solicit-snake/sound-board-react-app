@@ -15,7 +15,7 @@ export default function SampleBlock(props) {
         progressColor: '#baf71e',
         cursorColor: '#242424',
         cursorWidth: 1,
-        height: 60,
+        height: 50,
         responsive: true,
         barWidth: 1
     });
@@ -27,6 +27,14 @@ export default function SampleBlock(props) {
     waveSurfer.current.on('finish', () => {
       setIsPlaying(false);
     })
+
+    //if the user seeks (clicks) on the wave surfer than it will start playing
+    waveSurfer.current.on('seeking', () => {
+      if (!isPlaying) {
+        waveSurfer.current.play(); // Play if it's not already playing
+        setIsPlaying(true); // Update the play state
+      }
+    });
 
     return () => {
         // Clean up WaveSurfer instance when component unmounts
@@ -63,9 +71,9 @@ export default function SampleBlock(props) {
         <h3>{sampleData.name}</h3>
         <div ref={waveformRef} className="waveform" />
         <button onClick={togglePlay}>
-            {isPlaying ? 'Pause' : 'Play'}
+            {isPlaying ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-play"></i>}
         </button>
-        <button onClick={() => handleDownload(sampleData.previews['preview-hq-mp3'], sampleData.name)}>Download</button>
+        <button onClick={() => handleDownload(sampleData.previews['preview-hq-mp3'], sampleData.name)}><i className="fa-solid fa-download"></i></button>
     </div>
   )
 }

@@ -6,6 +6,7 @@ function FreeSoundSearch() {
     let searchResults = []
     const [samplesDetails, setSamplesDetails] = useState([])
     const [loading, setLoading] = useState(true)
+    const [clickedSearchAtLeastOnce, setClickedSearchAtLeastOnce] = useState(false);
     const [error, setError] = useState('')
     const apiKey = import.meta.env.VITE_FREESOUND_API_KEY
     let searchUrl = `https://freesound.org/apiv2/search/text/?query=` + `${searchQuery}&token=${apiKey}&page_size=8`
@@ -73,6 +74,7 @@ function FreeSoundSearch() {
   
     const handleSearch = (e) => {
       setLoading(true)
+      setClickedSearchAtLeastOnce(true);
       e.preventDefault()
       console.log('search query log: ' + searchQuery)
       fetchAPISearchQuery()
@@ -80,7 +82,7 @@ function FreeSoundSearch() {
 
     return (
       <div>
-        <form onSubmit={handleSearch}>
+        <form onSubmit={handleSearch} className='search-form'>
           <input
             type="text"
             value={searchQuery}
@@ -89,10 +91,16 @@ function FreeSoundSearch() {
           />
           <button type ="submit"> Search </button>
         </form>
-        
+
         <div className="sampleBlockContainer">
-          {loading ? <p>...</p> : samplesDetails.map(sample => (
-            <SampleBlock key={sample.id} sampleData={sample}></SampleBlock>)
+          {!clickedSearchAtLeastOnce ? <i className="fa-solid fa-compact-disc kyles-loader"></i> : <></>}
+          {loading  && clickedSearchAtLeastOnce ? <i className="fa-solid fa-compact-disc kyles-spinner"></i> : samplesDetails.map(sample => (
+            <SampleBlock 
+              key={sample.id} 
+              sampleData={sample}
+            />
+
+            )
           )}
         </div>
         
