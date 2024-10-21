@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FreeSoundSearch from './components/FreesoundSearch'
+import FreesoundSearch from './components/FreesoundSearch'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div>
-        <FreeSoundSearch/>
+        <FreesoundSearch/>
       </div>
     </>
   )
