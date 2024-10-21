@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import SampleBlock from './SampleBlock';
 
 function FreeSoundSearch() {
     const[searchQuery, setSearchQuery] = useState('')
-    let searchResults = [];
-    const[samplesDetails, setSamplesDetails] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('');
+    let searchResults = []
+    const [samplesDetails, setSamplesDetails] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
     const apiKey = import.meta.env.VITE_FREESOUND_API_KEY
     let searchUrl = `https://freesound.org/apiv2/search/text/?query=` + `${searchQuery}&token=${apiKey}&page_size=8`
     
 
     //searches the sound library for the query and saves as array
-
     async function fetchAPISearchQuery(){
       setLoading(true)
       try {
@@ -42,26 +42,40 @@ function FreeSoundSearch() {
 
     //gets intricate information about each found search result
     async function fetchAPIDetailedSampleData(){
-      let tempSamplesInfo = []
-      searchResults.map(async (searchResult) => {
+      let tempSamplesInfo = [];
+
+      // Create an array of promises for all the API calls
+      const searchPromise = searchResults.map(async (searchResult) => {
         try {
-          const res = await fetch(`https://freesound.org/apiv2/sounds/${searchResult.id}/?token=${apiKey}`)
-          const data = await res.json()
-          tempSamplesInfo.push(data)
-          console.log(data)
+          const res = await fetch(`https://freesound.org/apiv2/sounds/${searchResult.id}/?token=${apiKey}`);
+          const data = await res.json();
+          return data; // return the fetched data from each API call
         } catch (err) {
-          
+          console.error('Error fetching detailed sample data:', err);
+          return null; // Return null if there's an error
         }
-      })
+      });
+
+      // Wait for all promises to resolve
+      tempSamplesInfo = await Promise.all(searchPromise);
+
+      // Filter out any null values if any API calls failed
+      const validSamples = tempSamplesInfo.filter(sample => sample !== null);
+
+      // Update state once all API calls are done
+      setSamplesDetails(validSamples);
+      setLoading(false);
+
+      console.log('Fetched detailed sample data:', validSamples);
       
     }
 
   
     const handleSearch = (e) => {
+      setLoading(true)
       e.preventDefault()
       console.log('search query log: ' + searchQuery)
       fetchAPISearchQuery()
-      
     }
 
     return (
@@ -71,10 +85,21 @@ function FreeSoundSearch() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="search for samples..."
+            placeholder="search for audio samples..."
           />
           <button type ="submit"> Search </button>
         </form>
+        
+        <div className="sampleBlockContainer">
+          {loading ? <p>...</p> : samplesDetails.map(sample => (
+            <SampleBlock key={sample.id} sampleData={sample}></SampleBlock>)
+          )}
+        </div>
+        
+        {error && <p>Some sorta error fam: {error}</p> }
+
+        {}
+        <div></div>
       </div>
     )
   }
