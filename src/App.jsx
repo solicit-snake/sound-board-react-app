@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FreeSoundSearch from './components/FreeSoundSearch'
+import FreeSoundSearch from './components/FreesoundSearch'
 
 function App() {
   const [count, setCount] = useState(0)
