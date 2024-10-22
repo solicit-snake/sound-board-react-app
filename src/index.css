@@ -113,6 +113,15 @@ button:focus-visible {
     animation: spin 1s linear infinite;
 }
 
+.intro-text{
+  position: absolute;
+  font-size: 13px;
+  color: #dddddd6c;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }

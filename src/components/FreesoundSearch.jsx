@@ -93,7 +93,7 @@ function FreeSoundSearch() {
         </form>
 
         <div className="sampleBlockContainer">
-          {!clickedSearchAtLeastOnce ? <i className="fa-solid fa-compact-disc kyles-loader"></i> : <></>}
+          {!clickedSearchAtLeastOnce ? <div> <i className="fa-solid fa-compact-disc kyles-loader"> </i>  <p className='intro-text'>search for any sound, every search yields random results</p> </div> : <></>}
           {loading  && clickedSearchAtLeastOnce ? <i className="fa-solid fa-compact-disc kyles-spinner"></i> : samplesDetails.map(sample => (
             <SampleBlock 
               key={sample.id} 
